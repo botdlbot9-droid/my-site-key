@@ -47,15 +47,16 @@
             gap: 20px;
         }
         .blank-page .icon { font-size: 80px; }
+        .blank-page .sub-text { font-size: 14px; color: #3a3a4e; }
     </style>
 </head>
 <body>
 
-    <!-- ===== BLANK PAGE (Hidden by default) ===== -->
+    <!-- ===== BLANK PAGE ===== -->
     <div id="blankPage" class="blank-page hidden">
         <div class="icon">📺</div>
         <div>Stream is currently paused</div>
-        <div style="font-size: 14px; color: #3a3a4e;">Please check back later</div>
+        <div class="sub-text">Please check back later</div>
     </div>
 
     <!-- ===== PLAYER PAGE ===== -->
@@ -81,10 +82,9 @@
     <script>
         /**
          * ================================================================
-         *  🎬 LIVE STREAM - API Based Remote Control
-         *  - Checks localStorage every 3 seconds
-         *  - If status is 'paused' → show blank page
-         *  - If status is 'playing' → show video
+         *  🎬 LIVE STREAM - Remote Controlled by Admin Panel
+         *  - Checks localStorage every 2 seconds
+         *  - Status: 'playing' → video | 'paused' → blank | 'blank' → blank
          * ================================================================
          */
 
@@ -173,14 +173,14 @@
         }
 
         // ============================================================
-        // 🔄 CHECK STATUS - Every 3 seconds (API Polling)
+        // 🔄 CHECK STATUS - Every 2 seconds
         // ============================================================
 
         function checkStatus() {
             const status = localStorage.getItem(API_KEY) || 'playing';
             console.log('📊 Status:', status);
 
-            if (status === 'paused') {
+            if (status === 'paused' || status === 'blank') {
                 // Show blank page, hide player
                 blankPage.classList.remove('hidden');
                 playerPage.classList.add('hidden');
@@ -208,12 +208,11 @@
             // Initial check
             checkStatus();
             
-            // Check every 3 seconds
-            setInterval(checkStatus, 3000);
+            // Check every 2 seconds
+            setInterval(checkStatus, 2000);
 
-            console.log('✅ Live Stream with API Remote Control initialized!');
-            console.log('💡 Admin panel se "Pause" karein → blank page');
-            console.log('💡 Admin panel se "Play" karein → video start');
+            console.log('✅ Live Stream initialized!');
+            console.log('💡 Admin panel controls this stream');
         });
 
         // ============================================================
