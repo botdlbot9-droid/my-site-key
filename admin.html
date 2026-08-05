@@ -81,7 +81,7 @@
     <script>
         /**
          * ================================================================
-         *  🎬 LIVE STREAM - Remote Control via localStorage
+         *  🎬 LIVE STREAM - API Based Remote Control
          *  - Checks localStorage every 3 seconds
          *  - If status is 'paused' → show blank page
          *  - If status is 'playing' → show video
@@ -89,6 +89,7 @@
          */
 
         const VIDEO_URL = "https://vs.classplusapp.com/hls/6a718806e15274f80f0ea83c/720p20.m3u8";
+        const API_KEY = 'videoStatus';
         const blankPage = document.getElementById('blankPage');
         const playerPage = document.getElementById('playerPage');
         const statusText = document.getElementById('statusText');
@@ -172,11 +173,11 @@
         }
 
         // ============================================================
-        // 🔄 CHECK STATUS - Every 3 seconds
+        // 🔄 CHECK STATUS - Every 3 seconds (API Polling)
         // ============================================================
 
         function checkStatus() {
-            const status = localStorage.getItem('videoStatus') || 'playing';
+            const status = localStorage.getItem(API_KEY) || 'playing';
             console.log('📊 Status:', status);
 
             if (status === 'paused') {
@@ -210,7 +211,7 @@
             // Check every 3 seconds
             setInterval(checkStatus, 3000);
 
-            console.log('✅ Live Stream with Remote Control initialized!');
+            console.log('✅ Live Stream with API Remote Control initialized!');
             console.log('💡 Admin panel se "Pause" karein → blank page');
             console.log('💡 Admin panel se "Play" karein → video start');
         });
